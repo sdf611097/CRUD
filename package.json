@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha -t 10000",
-    "beautify": "jscs --fix ."
+    "beautify": "jscs --fix .",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
