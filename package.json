@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha -t 10000",
     "beautify": "jscs --fix .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "bundle": "cd src; zip -r lambda.zip ./*"
   },
   "repository": {
     "type": "git",
