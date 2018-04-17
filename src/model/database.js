@@ -2,8 +2,10 @@ const { Pool } = require('pg');
 const {DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME} = require('./config');
 
 const COMMON_FIELDS = {
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
+    /* eslint-disable */
+    createdAt: `"createdAt"`,
+    updatedAt: `"updatedAt"`,
+    /* eslint-enable */
 };
 
 // code < 0 => custom
@@ -12,6 +14,10 @@ const ERRORS = {
     ARGS_LEN_NOT_MATCH: {
         code: -5566,
         message: 'args length not match in sqlText',
+    },
+    NOT_FOUND: {
+        code: -404,
+        message: 'Not found',
     },
     UNIQUE_VIOLATION: {
         code: 23505,
