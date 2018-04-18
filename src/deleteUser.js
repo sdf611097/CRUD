@@ -12,6 +12,6 @@ exports.handler = async (event, context, callback) => {
         const res = await deleteById(event[KEYS.ID]);
         callback(null, res);
     }catch (err) {
-        callback(err);
+        callback(JSON.stringify(err));
     }
 };

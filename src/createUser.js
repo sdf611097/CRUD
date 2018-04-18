@@ -14,6 +14,6 @@ exports.handler = async (event, context, callback) => {
         const res = await create(event[KEYS.email], event[KEYS.name], event[KEYS.password]);
         callback(null, res);
     }catch (err) {
-        callback(err);
+        callback(JSON.stringify(err));
     }
 };

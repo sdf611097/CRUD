@@ -13,6 +13,6 @@ exports.handler = async (event, context, callback) => {
         const res = await updateName(event[KEYS.ID], event[KEYS.NEW_NAME]);
         callback(null, res);
     }catch (err) {
-        callback(err);
+        callback(JSON.stringify(err));
     }
 };
