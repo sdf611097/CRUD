@@ -34,7 +34,18 @@ async function updateName(id, newName) {
     }
 }
 
+async function deleteById(id) {
+    const text = `DELETE FROM users WHERE ${FIELDS.ID}= $1`;
+    const res = await query(text, [id]);
+    if(res.rowCount > 1){
+        throw new Error('[Important!!] Multi user be deleted.. , shutdown it immediately!!');
+    }else if(res.rowCount ===0){
+        throw ERRORS.NOT_FOUND;
+    }
+}
+
 exports.create = create;
 exports.getById = getById;
 exports.updateName = updateName;
+exports.deleteById = deleteById;
 exports.FIELDS = FIELDS;

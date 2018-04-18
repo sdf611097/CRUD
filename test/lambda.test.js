@@ -7,6 +7,17 @@ const User = require('../src/model/user');
 const createUser = require('../src/createUser');
 const getUserById = require('../src/getUserById');
 const updateUserName = require('../src/updateUserName');
+const deleteUserById = require('../src/deleteUser');
+
+const callbackNotFound = (err, res)=> {
+    expect(err).to.deep.equal(ERRORS.NOT_FOUND);
+    expect(res).to.be.undefined;
+};
+
+const callbackNoErr = (err, res)=>{
+    expect(err).to.be.null;
+    expect(res).to.be.undefined;
+};
 
 describe('User', function () {
     let user = {};
@@ -55,13 +66,9 @@ describe('User', function () {
         }, {}, callback);
 
         // not exists
-        callback = (err, res)=> {
-            expect(err).to.deep.equal(ERRORS.NOT_FOUND);
-            expect(res).to.be.undefined;
-        };
         await getUserById.handler({
             [getUserById.KEYS.ID]: -1
-        }, {}, callback);
+        }, {}, callbackNotFound);
     });
 
     it('updateUserName', async() =>{
@@ -85,6 +92,19 @@ describe('User', function () {
         await getUserById.handler({
             [getUserById.KEYS.ID]: user[User.FIELDS.ID],
         }, {}, callback);
+    });
+
+    it('deleteUserById', async()=> {
+
+        // delete normally
+        await deleteUserById.handler({
+            [getUserById.KEYS.ID]: user[User.FIELDS.ID],
+        }, {}, callbackNoErr);
+
+        // delete it again
+        await deleteUserById.handler({
+            [getUserById.KEYS.ID]: user[User.FIELDS.ID],
+        }, {}, callbackNotFound);
     });
 
     after(async()=> {
