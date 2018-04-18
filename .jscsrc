@@ -1,5 +1,5 @@
 {
-    "excludeFiles": ["coverage/**",".git/**","node_modules/**"],
+    "excludeFiles": ["coverage/**",".git/**","**/node_modules/**"],
     "maxErrors": 10,
     "preset": "airbnb",
     "validateIndentation": 4

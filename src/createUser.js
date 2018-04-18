@@ -1,4 +1,4 @@
-const {create} = require('./model/user');
+const { create } = require('./model/user');
 
 const KEYS = {
     email: 'email',
@@ -10,10 +10,10 @@ exports.KEYS = KEYS;
 
 exports.handler = async (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
-    try{
+    try {
         const res = await create(event[KEYS.email], event[KEYS.name], event[KEYS.password]);
         callback(null, res);
-    }catch (err){
+    }catch (err) {
         callback(err);
     }
 };

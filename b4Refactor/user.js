@@ -53,7 +53,7 @@ const User = sequelize.define('user', {
     },
 });
 
-exports.create = async function(name, email, password) {
+exports.create = async function (name, email, password) {
     const user = await User.create({
         [FIELDS.NAME]: name,
         [FIELDS.EMAIL]: email,

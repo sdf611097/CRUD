@@ -16,7 +16,7 @@ describe('User', function () {
         });
     });
 
-    it('create', async function() {
+    it('create', async function () {
 
         //invalid email case
         let result;

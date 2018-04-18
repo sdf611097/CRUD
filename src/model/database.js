@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const {DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME} = require('./config');
+const { DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME } = require('./config');
 
 const COMMON_FIELDS = {
     /* eslint-disable */
@@ -21,7 +21,7 @@ const ERRORS = {
     },
     NOTHING_UPDATED: {
         code: -1000,
-        message: 'nothing be updated'
+        message: 'nothing be updated',
     },
     UNIQUE_VIOLATION: {
         code: 23505,
@@ -31,9 +31,9 @@ const ERRORS = {
 
 let ERR_LOOKUP = {};
 
-for (let err of Object.keys(ERRORS)){
+for (let err of Object.keys(ERRORS)) {
     ERR_LOOKUP = Object.assign(ERR_LOOKUP, {
-        [ERRORS[err].code]: ERRORS[err]
+        [ERRORS[err].code]: ERRORS[err],
     });
 }
 
@@ -45,19 +45,20 @@ const pool = new Pool({
     host: DB_HOST,
 });
 
-const query = async function(sqlText, args) {
-    if ((sqlText.split('$').length -1) !== args.length){
+const query = async function (sqlText, args) {
+    if ((sqlText.split('$').length - 1) !== args.length) {
         throw ERRORS.ARGS_LEN_NOT_MATCH;
     }
-    try{
+
+    try {
         return await pool.query(sqlText, args);
-    } catch(err) {
+    } catch (err) {
         throw errHandler(err);
     }
 };
 
 function errHandler(err) {
-    if (ERR_LOOKUP[err.code]){
+    if (ERR_LOOKUP[err.code]) {
         console.log(err.detail);
         return ERR_LOOKUP[err.code];
     }else {
