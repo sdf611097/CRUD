@@ -19,6 +19,10 @@ const ERRORS = {
         code: -404,
         message: 'Not found',
     },
+    NOTHING_UPDATED: {
+        code: -1000,
+        message: 'nothing be updated'
+    },
     UNIQUE_VIOLATION: {
         code: 23505,
         message: 'duplicate key value violates unique constraint',

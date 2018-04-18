@@ -24,6 +24,17 @@ async function getById(id) {
     return res.rows[0];
 }
 
+async function updateName(id, newName) {
+    const text = `Update users SET ${FIELDS.NAME}=$1 WHERE ${FIELDS.ID}=$2`;
+    const res = await query(text, [newName, id]);
+    if(res.rowCount > 1){
+        throw new Error('This case should not happen!');
+    }else if(res.rowCount === 0) {
+        throw ERRORS.NOTHING_UPDATED;
+    }
+}
+
 exports.create = create;
 exports.getById = getById;
+exports.updateName = updateName;
 exports.FIELDS = FIELDS;

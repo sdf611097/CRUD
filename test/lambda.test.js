@@ -6,6 +6,7 @@ const {pool, ERRORS} = require('../src/model/database');
 const User = require('../src/model/user');
 const createUser = require('../src/createUser');
 const getUserById = require('../src/getUserById');
+const updateUserName = require('../src/updateUserName');
 
 describe('User', function () {
     let user = {};
@@ -25,7 +26,7 @@ describe('User', function () {
         // create normally
         callback= (err, res)=> {
             expect(res.id).to.not.be.undefined;
-            id = res.id;
+            id = res[User.FIELDS.ID];
         };
         await createUser.handler(user, {}, callback);
 
@@ -39,7 +40,7 @@ describe('User', function () {
         await createUser.handler(user, {}, callback);
 
         //assign id for other test case
-        user = Object.assign(user, {id});
+        user = Object.assign(user, {[User.FIELDS.ID]: id});
     });
 
     it('getUserById', async ()=>{
@@ -50,7 +51,7 @@ describe('User', function () {
             expect(res[User.FIELDS.EMAIL]).to.equal(user[createUser.KEYS.email]);
         };
         await getUserById.handler({
-            [getUserById.KEYS.ID]: user.id
+            [getUserById.KEYS.ID]: user[User.FIELDS.ID]
         }, {}, callback);
 
         // not exists
@@ -60,6 +61,29 @@ describe('User', function () {
         };
         await getUserById.handler({
             [getUserById.KEYS.ID]: -1
+        }, {}, callback);
+    });
+
+    it('updateUserName', async() =>{
+        let callback;
+        let newName = utils.getNewId(10);
+        callback = (err, res)=>{
+            expect(err).to.be.null;
+            expect(res).to.be.undefined;
+        };
+        await updateUserName.handler({
+            [updateUserName.KEYS.ID]: user[User.FIELDS.ID],
+            [updateUserName.KEYS.NEW_NAME]: newName,
+        }, {}, callback);
+
+        // retrieve it from db to check results
+        callback = (err, res)=>{
+            expect(err).to.be.null;
+            expect(res[User.FIELDS.NAME]).to.equal(newName);
+        };
+
+        await getUserById.handler({
+            [getUserById.KEYS.ID]: user[User.FIELDS.ID],
         }, {}, callback);
     });
 
